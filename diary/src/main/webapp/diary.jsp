@@ -5,6 +5,7 @@
 <%
 	// 로그인(인증) 분기
 	// diary.login.my_ssesion => 'OFF' => redirect("loginForm.jsp")
+	
 	String sql1 = "select my_session mySession from login";
 	Connection conn = null;
 	PreparedStatement stmt1 = null;
