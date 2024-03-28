@@ -41,6 +41,10 @@
 	System.out.println("menu : " + menu);
 	System.out.println("updatedDate : " + updatedDate);
 	System.out.println("createDate : " + createDate);
+	System.out.println("createDate : " + createDate);
+	
+	
+	
 %>
 <!DOCTYPE html>
 <html>
