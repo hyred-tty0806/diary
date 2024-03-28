@@ -27,12 +27,6 @@
 %>	
 
 <%
-	/*
-	SELECT menu,COUNT(*) 
-	FROM lunch
-	GROUP BY menu
-	ORDER BY COUNT(*) DESC;
-	*/
 	String sql2 = "select menu, count(*) cnt from lunch group by menu";
 	PreparedStatement stmt2 = null;
 	ResultSet rs2 = null;
@@ -93,8 +87,5 @@
 			%>
 		</tr>
 	</table>
-	
-	
-	
 </body>
 </html>

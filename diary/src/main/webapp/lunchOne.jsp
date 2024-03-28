@@ -3,6 +3,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 
+	/*49행부터 작업해야함*/
+
+
+
+
+	Connection conn = null;
+	PreparedStatement stmt1 = null;
+	ResultSet rs1 = null;
+	PreparedStatement stmt2 = null;
+	ResultSet rs2 = null;
+	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");	
+	String menuStr = "";
+
 	Calendar target = Calendar.getInstance();
 	int targetYear = target.get(Calendar.YEAR);
 	int targetMonth = target.get(Calendar.MONTH)+1;
@@ -12,11 +25,9 @@
 	System.out.println("target month : " + targetMonth);
 	System.out.println("target day : " + targetDay);
 	System.out.println("currentDateStr : " + currentDateStr);
-	Connection conn = null;
-	PreparedStatement stmt1 = null;
-	ResultSet rs1 = null;
+
+
 	String sql1 = "SELECT lunch_date, menu, updated_date, create_date FROM lunch WHERE lunch_date = ?";
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
 	stmt1 = conn.prepareStatement(sql1);
 	stmt1.setString(1, currentDateStr);
 	rs1 = stmt1.executeQuery();
@@ -25,25 +36,23 @@
 	String updatedDate = "";
 	String createDate = "";
 	boolean foundOrNotFound = false;
-	if(rs1 != null){
-		if(rs1.next()){
-			lunchDate = rs1.getString("lunch_date");
-			menu = rs1.getString("menu");
-			updatedDate = rs1.getString("updated_date");
-			createDate = rs1.getString("create_date");
-		}
+
+	if(rs1.next()){
+		lunchDate = rs1.getString("lunch_date");
+		menu = rs1.getString("menu");
+		updatedDate = rs1.getString("updated_date");
+		createDate = rs1.getString("create_date");
 		foundOrNotFound = true;
-	}else {
+	}else{
 		System.out.println("today data is nothing");
 		foundOrNotFound = false;
 	}
+	
 	System.out.println("lunchDate : " + lunchDate);
 	System.out.println("menu : " + menu);
 	System.out.println("updatedDate : " + updatedDate);
 	System.out.println("createDate : " + createDate);
-	System.out.println("createDate : " + createDate);
-	
-	
+	System.out.println("foundOrNotFound : " + foundOrNotFound);
 	
 %>
 <!DOCTYPE html>
@@ -106,7 +115,43 @@
 					</tbody>
 				</table>
 			<%}else{%>
-			
+				<form action="./lunchInsertAction.jsp" method="get">
+					<table class="table">
+						<colgroup>
+							<col style="width: 40%;">
+							<col style="width: 50%;">
+						</colgroup>
+						<thead>
+							<th colspan="2">Information</th>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Date</td>
+								<td><input type="text" name="currentDateStr" value="<%=currentDateStr%>"></td>
+							</tr>
+							<tr>
+								<td>Menu</td>
+								<td>
+									<label for="m1">한식</label>
+									<input type="radio" id="m1" name="menu" value="1">
+									<label for="m2">중식</label>
+									<input type="radio" id="m2" name="menu" value="2">
+									<label for="m3">일식</label>
+									<input type="radio" id="m3" name="menu" value="3">
+									<label for="m4">양식</label>
+									<input type="radio" id="m4" name="menu" value="4">
+									<label for="m5">기타</label>
+									<input type="radio" id="m5" name="menu" value="5">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" style="text-align: center;">
+									<button type="submit" class="btn btn-primary">SUBMIT</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 			<%}%>
 			</div>
 			<div class="col"></div>
