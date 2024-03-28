@@ -77,6 +77,12 @@
 					<a href="/diary/addDiaryForm.jsp" class="list-group-item list-group-item-action">
 						Write	
 					</a>
+					<a href="/diary/lunchOne.jsp" class="list-group-item list-group-item-action">
+						Lunch Voting	
+					</a>
+					<a href="/diary/statsLunch.jsp" class="list-group-item list-group-item-action">
+						Lunch Statistics	
+					</a>
 					<a href="/diary/logout.jsp" class="list-group-item list-group-item-action">
 						Logout
 					</a>
