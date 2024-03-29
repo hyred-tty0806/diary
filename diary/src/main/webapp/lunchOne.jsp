@@ -3,11 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 
-	/*49행부터 작업해야함*/
-
-
-
-
 	Connection conn = null;
 	PreparedStatement stmt1 = null;
 	ResultSet rs1 = null;
@@ -25,7 +20,6 @@
 	System.out.println("target month : " + targetMonth);
 	System.out.println("target day : " + targetDay);
 	System.out.println("currentDateStr : " + currentDateStr);
-
 
 	String sql1 = "SELECT lunch_date, menu, updated_date, create_date FROM lunch WHERE lunch_date = ?";
 	stmt1 = conn.prepareStatement(sql1);
@@ -72,6 +66,9 @@
 					<a href="/diary/calendar.jsp" class="list-group-item list-group-item-action">
 						Calendar
 					</a>
+					<a href="/diary/diary.jsp" class="list-group-item list-group-item-action">
+						Diary			
+					</a>
 					<a href="/diary/statsLunch.jsp" class="list-group-item list-group-item-action">
 						Lunch Statistics	
 					</a>
@@ -82,44 +79,49 @@
 			</div>
 			<div class="mt-5 mb-1 col-7 border border-success shadow p-3  bg-body-tertiary rounded">
 			<%if(foundOrNotFound){%>
-				<table class="table">
-					<colgroup>
-						<col style="width: 40%;">
-						<col style="width: 50%;">
-					</colgroup>
-					<thead>
-						<th colspan="2">Information</th>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Lunch Date</td>
-							<td><%=lunchDate%></td>
-						</tr>
-						<tr>
-							<td>Menu</td>
-							<td><%=menu%></td>
-						</tr>
-						<tr>
-							<td>Updated Date</td>
-							<td><%=updatedDate%></td>
-						</tr>
-						<tr>
-							<td>Created Date</td>
-							<td><%=createDate%></td>
-						</tr>
-						<tr>
-							<td colspan="2" style="text-align: center;">
-								<button type="submit" class="btn btn-primary">DELETE</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<form action="./lunchDeleteAction.jsp" method="get">
+					<table class="table">
+						<colgroup>
+							<col style="width: 40%;">
+							<col style="width: 60%;">
+						</colgroup>
+						<thead>
+							<th colspan="2">Information</th>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Lunch Date</td>
+								<td>
+									<%=lunchDate%>
+									<input type="hidden" value="<%=lunchDate%>" name="lunchDate">
+								</td>
+							</tr>
+							<tr>
+								<td>Menu</td>
+								<td><%=menu%></td>
+							</tr>
+							<tr>
+								<td>Updated Date</td>
+								<td><%=updatedDate%></td>
+							</tr>
+							<tr>
+								<td>Created Date</td>
+								<td><%=createDate%></td>
+							</tr>
+							<tr>
+								<td colspan="2" style="text-align: center;">
+									<button type="submit" class="btn btn-primary">DELETE</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 			<%}else{%>
 				<form action="./lunchInsertAction.jsp" method="get">
 					<table class="table">
 						<colgroup>
 							<col style="width: 40%;">
-							<col style="width: 50%;">
+							<col style="width: 60%;">
 						</colgroup>
 						<thead>
 							<th colspan="2">Information</th>

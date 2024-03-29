@@ -116,6 +116,9 @@
 			<div class="col">
 				<h1>Diary</h1>
 				<div class="list-group">
+					<a href="/diary/calendar.jsp" class="list-group-item list-group-item-action">
+						Calendar
+					</a>
 					<a href="/diary/diary.jsp" class="list-group-item list-group-item-action">
 						Diary			
 					</a>
