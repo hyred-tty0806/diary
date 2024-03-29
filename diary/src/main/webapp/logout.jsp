@@ -8,7 +8,7 @@
 		1. 이미 로그아웃 상태면 메시지와 함께 로그인화면으로 이동
 		2. mySession 으로 off  값으로 바꾸고 loginForm으로 이동
 	*/
-	Class.forName("org.mariadb.jdbc.Driver");
+/* 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = null;
 	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");	
 	
@@ -39,5 +39,8 @@
 	System.out.println("row : " + row);
 	
 	response.sendRedirect("/diary/loginForm.jsp");
-	ResultSet rs2 = null;
+	ResultSet rs2 = null; */
+	
+	session.invalidate(); // 세션 공간 초기화(포맷)
+	response.sendRedirect("/diary/loginForm.jsp");
 %>

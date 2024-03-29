@@ -1,3 +1,4 @@
+<%@page import="common.Common"%>
 <%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5,14 +6,14 @@
 	String diaryDate = request.getParameter("diaryDate");
 	System.out.println("diaryDate : " + diaryDate);
 
-	Connection conn = null;
-	Class.forName("org.mariadb.jdbc.Driver");
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
+	/* ******DB 연결***** */
+	Common DBConnect = new Common();
+	Connection conn = DBConnect.DBConnection();
+	/* ******DB 연결***** */
 	
 	String sql1 = "SELECT diary_date, feeling, title, weather, content, update_date, create_date FROM diary WHERE diary_date = ?";
 	PreparedStatement stmt1 = null;
 	ResultSet rs1 = null;
-	
 	stmt1 = conn.prepareStatement(sql1);
 	stmt1.setString(1, diaryDate);
 	rs1 = stmt1.executeQuery();	
@@ -26,6 +27,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
+
 	<div class="container">	
 		<div class="row">
 			<div class="col">
@@ -73,6 +75,54 @@
 							<a href="./diary.jsp" class="btn btn-primary" style="color:white; display: block;">LIST</a>
 					    </div>
 					</div>
+			</div>
+			<div class="col"></div>
+		</div>
+		<div class="row">
+			<div class="col"></div>
+			<div class="mt-5 mb-1 col-7 border border-success shadow p-3  bg-body-tertiary rounded">
+				<!-- 댓글 추가 폼 -->
+				<div>
+					<form method="post" action="/diary/addCommentAction.jsp">
+						<div class="row">
+							<div class="col-10">
+								<input type="hidden" name="diaryDate" value="<%=diaryDate%>">
+								<textarea class="form-control" style="width: 100%;" id="exampleFormControlTextarea1" name="memo"></textarea>							
+							</div>
+							<div class="col">
+								<button type="submit" class="btn btn-primary" style="height: 62px; width: 100%;">SAVE</button>															
+							</div>
+						</div>
+					</form>
+				</div>	
+				<hr>
+				<!-- 댓글 리스트 -->
+				<%
+					String sql2 = "select comment_no commentNo,memo,create_date createDate from comment where diary_date=?";
+					PreparedStatement stmt2 = null;
+					ResultSet rs2 = null;
+					
+					stmt2 = conn.prepareStatement(sql2);
+					stmt2.setString(1, diaryDate);
+					rs2 = stmt2.executeQuery();
+				%>
+					<%
+						while(rs2.next()) {
+					%>
+							<div class="row">
+							    <div class="col">
+									<%=rs2.getString("memo")%>				
+							    </div>
+							    <div class="col-2">
+									<%=rs2.getString("createDate")%>
+							    </div>
+							    <div class="col-1">
+									<a href='/diary/deleteComment.jsp?commentNo=<%=rs2.getInt("commentNo")%>'>삭제</a>				      				
+							    </div>
+							</div>
+					<%		
+						}
+					%>
 			</div>
 			<div class="col"></div>
 		</div>

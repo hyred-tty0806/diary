@@ -1,18 +1,18 @@
+<%@page import="common.Common"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	/* ******DB 연결***** */
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");	
+	Common DBConnect = new Common();
+	Connection conn = DBConnect.DBConnection();
 	/* ******DB 연결***** */
 	
 	/* DB 연결 기본 객체 */
-	PreparedStatement stmt1 = null;
-	ResultSet rs1 = null;
-	String sql1 = "";
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	String sql = "";
 	/* DB 연결 기본 객체 */
 	
 	/* ********로그인 상태 체크****** */
@@ -45,7 +45,7 @@
 		stmt1 = conn.prepareStatement(sql1);
 		rs1 = stmt1.executeQuery();
 		String mySession = null;
-		if(rs1.next()){
+		if(rs1.next()) {
 			mySession = rs1.getString("mySession");
 		}
 		if(mySession.equals("ON")) {
